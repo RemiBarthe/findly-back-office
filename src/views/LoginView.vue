@@ -3,13 +3,14 @@ import { Ref, ref } from "vue";
 import { login } from "@/api/auth";
 import { useTokenStore } from "@/stores/token";
 import router from "@/router";
+import { storeToRefs } from "pinia";
 
 const form: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(false);
 const email: Ref<string> = ref("");
 const password: Ref<string> = ref("");
 
-const store = useTokenStore();
+const { token } = storeToRefs(useTokenStore());
 
 function required(v: string): boolean | string {
   return !!v || "Field is required";
@@ -18,7 +19,7 @@ function required(v: string): boolean | string {
 function signIn() {
   if (!form.value) return;
 
-  store.setToken(login(email.value, password.value));
+  token.value = login(email.value, password.value);
 
   router.push("/users");
 }

@@ -8,11 +8,6 @@ const routes: Array<RouteRecordRaw> = [
     component: LoginView,
   },
   {
-    path: "/login",
-    name: "login",
-    component: LoginView,
-  },
-  {
     path: "/posts",
     name: "posts",
     component: () =>
