@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { login } from "@/api/auth";
+import { useTokenStore } from "@/stores/token";
+import router from "@/router";
 
 const form: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(false);
 const email: Ref<string> = ref("");
 const password: Ref<string> = ref("");
+
+const store = useTokenStore();
 
 function required(v: string): boolean | string {
   return !!v || "Field is required";
@@ -14,9 +18,9 @@ function required(v: string): boolean | string {
 function signIn() {
   if (!form.value) return;
 
-  login(email.value, password.value).then(function (response) {
-    console.log(response);
-  });
+  store.setToken(login(email.value, password.value));
+
+  router.push("/users");
 }
 </script>
 
