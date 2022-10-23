@@ -7,6 +7,7 @@ import { useTokenStore } from "@/stores/token";
 
 const form: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(false);
+const hasError: Ref<boolean> = ref(false);
 const email: Ref<string> = ref("");
 const password: Ref<string> = ref("");
 
@@ -19,10 +20,20 @@ function required(v: string): boolean | string {
 function signIn() {
   if (!form.value) return;
 
-  token.value = login(email.value, password.value);
-  currentEmail.value = email.value;
+  loading.value = true;
 
-  router.push("/posts");
+  login(email.value, password.value)
+    .then((response) => {
+      loading.value = false;
+      token.value = response.data;
+      currentEmail.value = email.value;
+      router.push("/posts");
+    })
+    .catch((error) => {
+      console.log(error);
+      loading.value = false;
+      hasError.value = true;
+    });
 }
 </script>
 
@@ -51,6 +62,13 @@ function signIn() {
       ></v-text-field>
 
       <br />
+
+      <div class="mb-4" v-if="hasError">
+        <p class="text-subtitle-2 text-center text-red">Wrong credentials</p>
+        <p class="text-caption text-center text-red">
+          Invalid email or password
+        </p>
+      </div>
 
       <v-btn
         :disabled="!form"
