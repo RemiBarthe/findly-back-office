@@ -25,7 +25,7 @@ function signIn() {
   login(email.value, password.value)
     .then((response) => {
       loading.value = false;
-      token.value = response.data;
+      token.value = response.data.token;
       currentEmail.value = email.value;
       router.push("/posts");
     })
