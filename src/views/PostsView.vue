@@ -4,17 +4,28 @@ import postsApi from "@/api/posts";
 import { Post } from "@/types/post";
 
 const posts: Ref<Post[] | null> = ref(null);
+const loading: Ref<boolean> = ref(true);
 
 postsApi.getAll({ page: 1 }).then((response) => {
   posts.value = response.data;
+  loading.value = false;
 });
 </script>
 
 <template>
   <div class="posts">
-    <h2>Posts management</h2>
+    <h2 class="mb-4">Posts management</h2>
 
-    <v-table>
+    <p v-if="loading">
+      <v-progress-circular
+        indeterminate
+        :size="25"
+        class="mr-4"
+      ></v-progress-circular
+      >Loading ...
+    </p>
+
+    <v-table v-else>
       <thead>
         <tr>
           <th class="text-left">Id</th>

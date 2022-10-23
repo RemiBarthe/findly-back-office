@@ -4,17 +4,28 @@ import usersApi from "@/api/users";
 import { User } from "@/types/post";
 
 const users: Ref<User[] | null> = ref(null);
+const loading: Ref<boolean> = ref(true);
 
 usersApi.getAll({ page: 1 }).then((response) => {
   users.value = response.data;
+  loading.value = false;
 });
 </script>
 
 <template>
   <div class="users">
-    <h2>Users management</h2>
+    <h2 class="mb-4">Users management</h2>
 
-    <v-table>
+    <p v-if="loading">
+      <v-progress-circular
+        indeterminate
+        :size="25"
+        class="mr-4"
+      ></v-progress-circular
+      >Loading ...
+    </p>
+
+    <v-table v-else>
       <thead>
         <tr>
           <th class="text-left">Id</th>
