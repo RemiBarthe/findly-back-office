@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { login } from "@/api/auth";
-import { useTokenStore } from "@/stores/token";
 import router from "@/router";
 import { storeToRefs } from "pinia";
+import { useTokenStore } from "@/stores/token";
 
 const form: Ref<boolean> = ref(false);
 const loading: Ref<boolean> = ref(false);
