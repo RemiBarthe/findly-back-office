@@ -18,6 +18,8 @@ function getAllPosts() {
 }
 
 function deletePost(id: string) {
+  loading.value = true;
+
   postsApi.delete(id).then(() => {
     getAllPosts();
   });

@@ -6,10 +6,24 @@ import { User } from "@/types/post";
 const users: Ref<User[] | null> = ref(null);
 const loading: Ref<boolean> = ref(true);
 
-usersApi.getAll({ page: 1 }).then((response) => {
-  users.value = response.data;
-  loading.value = false;
-});
+getAllUsers();
+
+function getAllUsers() {
+  loading.value = true;
+
+  usersApi.getAll({ page: 1 }).then((response) => {
+    users.value = response.data;
+    loading.value = false;
+  });
+}
+
+function deleteUser(id: string) {
+  loading.value = true;
+
+  usersApi.delete(id).then(() => {
+    getAllUsers();
+  });
+}
 </script>
 
 <template>
@@ -33,6 +47,7 @@ usersApi.getAll({ page: 1 }).then((response) => {
           <th class="text-left">Surname</th>
           <th class="text-left">Created at</th>
           <th class="text-left">Updated at</th>
+          <th class="text-left">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +57,15 @@ usersApi.getAll({ page: 1 }).then((response) => {
           <td>{{ user.surname }}</td>
           <td>{{ user.createdAt }}</td>
           <td>{{ user.updatedAt }}</td>
+          <td>
+            <v-row justify="space-around" style="cursor: pointer">
+              <v-icon large> mdi-pencil </v-icon>
+
+              <v-icon color="red" large @click="deleteUser(user.id)">
+                mdi-delete
+              </v-icon>
+            </v-row>
+          </td>
         </tr>
       </tbody>
     </v-table>
