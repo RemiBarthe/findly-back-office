@@ -3,7 +3,7 @@ import router from "@/router";
 import { useTokenStore } from "@/stores/token";
 import { storeToRefs } from "pinia";
 
-const { token } = storeToRefs(useTokenStore());
+const { token, currentEmail } = storeToRefs(useTokenStore());
 
 function logOut() {
   token.value = null;
@@ -17,7 +17,7 @@ function logOut() {
       <v-list-item
         prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
         title="Admin Admin"
-        subtitle="sandra_a88@gmailcom"
+        :subtitle="currentEmail"
       ></v-list-item>
     </v-list>
 

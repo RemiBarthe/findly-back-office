@@ -10,7 +10,7 @@ const loading: Ref<boolean> = ref(false);
 const email: Ref<string> = ref("");
 const password: Ref<string> = ref("");
 
-const { token } = storeToRefs(useTokenStore());
+const { token, currentEmail } = storeToRefs(useTokenStore());
 
 function required(v: string): boolean | string {
   return !!v || "Field is required";
@@ -20,6 +20,7 @@ function signIn() {
   if (!form.value) return;
 
   token.value = login(email.value, password.value);
+  currentEmail.value = email.value;
 
   router.push("/users");
 }
