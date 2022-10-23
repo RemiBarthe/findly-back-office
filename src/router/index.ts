@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter(to, from, next) {
       const { token } = storeToRefs(useTokenStore());
 
-      if (token.value) next("/users");
+      if (token.value) next("/posts");
       else next();
     },
   },

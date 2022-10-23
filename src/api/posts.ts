@@ -2,7 +2,7 @@ import axios from "axios";
 import { useTokenStore } from "@/stores/token";
 import { storeToRefs } from "pinia";
 
-const requestUrl = "https://technical-test.findly.co/api/users";
+const requestUrl = "https://technical-test.findly.co/api/posts";
 const { token } = storeToRefs(useTokenStore());
 
 axios.defaults.headers.common = { Authorization: `Bearer ${token.value}` };

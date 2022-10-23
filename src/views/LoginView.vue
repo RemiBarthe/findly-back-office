@@ -22,7 +22,7 @@ function signIn() {
   token.value = login(email.value, password.value);
   currentEmail.value = email.value;
 
-  router.push("/users");
+  router.push("/posts");
 }
 </script>
 
