@@ -2,7 +2,7 @@ import axios from "axios";
 import { useTokenStore } from "@/stores/token";
 import { storeToRefs } from "pinia";
 
-const requestUrl = "https://technical-test.findly.co/api/users";
+const requestUrl = "https://technical-test.findly.co/api/users/";
 const { token } = storeToRefs(useTokenStore());
 
 axios.defaults.headers.common = { Authorization: `Bearer ${token.value}` };
@@ -14,11 +14,11 @@ export default {
     });
   },
 
-  get(id: number) {
+  get(id: string) {
     return axios.get(requestUrl + id);
   },
 
-  update(id: number, data: Array<string>) {
+  update(id: string, data: Array<string>) {
     return axios.put(requestUrl + id, data);
   },
 
@@ -26,7 +26,7 @@ export default {
     return axios.post(requestUrl, data);
   },
 
-  delete(id: number) {
+  delete(id: string) {
     return axios.delete(requestUrl + id);
   },
 };

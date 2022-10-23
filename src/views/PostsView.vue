@@ -6,10 +6,22 @@ import { Post } from "@/types/post";
 const posts: Ref<Post[] | null> = ref(null);
 const loading: Ref<boolean> = ref(true);
 
-postsApi.getAll({ page: 1 }).then((response) => {
-  posts.value = response.data;
-  loading.value = false;
-});
+getAllPosts();
+
+function getAllPosts() {
+  loading.value = true;
+
+  postsApi.getAll({ page: 1 }).then((response) => {
+    posts.value = response.data;
+    loading.value = false;
+  });
+}
+
+function deletePost(id: string) {
+  postsApi.delete(id).then(() => {
+    getAllPosts();
+  });
+}
 </script>
 
 <template>
@@ -34,6 +46,7 @@ postsApi.getAll({ page: 1 }).then((response) => {
           <th class="text-left">Created at</th>
           <th class="text-left">Updated at</th>
           <th class="text-left">Created by</th>
+          <th class="text-left">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +57,15 @@ postsApi.getAll({ page: 1 }).then((response) => {
           <td>{{ post.createdAt }}</td>
           <td>{{ post.updatedAt }}</td>
           <td>{{ post.createdBy?.surname }}</td>
+          <td>
+            <v-row justify="space-around" style="cursor: pointer">
+              <v-icon large> mdi-pencil </v-icon>
+
+              <v-icon color="red" large @click="deletePost(post.id)">
+                mdi-delete
+              </v-icon>
+            </v-row>
+          </td>
         </tr>
       </tbody>
     </v-table>
